@@ -265,21 +265,35 @@ export interface RouterOptions {
 
     /**
      * 判断是否是外部链接。在同域时调用，用于处理同域也被视为外站的情况
+     * @param router 路由实例
      * @param url 要判断的链接
      * @param route 虚假的 route 信息
-     * @returns 是否是外部链接，返回 `true` 会调用 `handleOutside`。返回 `false | undefined` 会继续路由跳转
+     * @returns 是否是外部链接，返回 `false | undefined` 会继续路由跳转（`true` 会调用 `handleOutside`）。
      */
-    isOutside?: (url: RouterRawLocation, route: Route) => boolean | undefined;
+    validateOutside?: (context: {
+        router: RouterInstance;
+        location: RouterRawLocation;
+        route: Route;
+    }) => boolean | undefined;
 
     /**
      * 路由跳转到外部链接时触发
-     * 返回 false 才会阻止路由跳转外站的默认行为
+     * @param router 路由实例
+     * @param route 虚假的 route 信息
+     * @param replace 是否替换当前历史记录
+     * @param isTriggerWithWindow 是否是 pushWindow/replaceWindow 触发的
+     * @param isSameHost 是否是同域。
+     * * 客户端如果 `isTriggerWithWindow === true && isSameHost === true`，意味着 `validateOutside` 返回了 `true`
+     * * 服务端如果 `isSameHost === true`，意味着 `validateOutside` 返回了 `true`
+     * @returns 返回 `true` 会阻止路由跳转外站的默认行为
      */
-    handleOutside?: (
-        route: Route,
-        replace: boolean,
-        isSameHost: boolean
-    ) => boolean | undefined;
+    handleOutside?: (context: {
+        router: RouterInstance;
+        route: Route;
+        replace: boolean;
+        isTriggerWithWindow: boolean;
+        isSameHost: boolean;
+    }) => boolean | undefined;
 
     /**
      * 路由配置使用的 route

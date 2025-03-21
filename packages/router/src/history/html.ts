@@ -104,41 +104,48 @@ export class HtmlHistory extends BaseRouterHistory {
 
     pushWindow(location: RouterRawLocation) {
         if (this.isFrozen) return;
-        this.handleOutside(location, false, false);
+        this.handleOutside(location, false, true);
     }
 
     replaceWindow(location: RouterRawLocation) {
         if (this.isFrozen) return;
-        this.handleOutside(location, true, false);
+        this.handleOutside(location, true, true);
     }
 
     // 处理外站跳转逻辑
     handleOutside(
         location: RouterRawLocation,
         replace: boolean = false,
-        accessCheck: boolean = true
+        // 是否是 pushWindow/replaceWindow 触发的
+        isTriggerWithWindow: boolean = false
     ) {
         const { flag, route } = isPathWithProtocolOrDomain(location);
-        if (accessCheck) {
-            if (!flag) {
-                // 如果不以域名开头则跳出
-                return false;
-            }
+        const router = this.router;
+        const { handleOutside, validateOutside } = router.options;
 
-            // 如果域名相同则跳出
-            if (window.location.hostname === route.hostname) {
+        // 不以域名开头 或 域名相同 都认为是同域
+        const isSameHost = !flag || window.location.hostname === route.hostname;
+
+        // 如果 不是 pushWindow/replaceWindow 触发的
+        if (!isTriggerWithWindow) {
+            // 如果域名相同 和 非外站（存在就算同域也会被视为外站的情况） 则跳出
+            if (isSameHost && !validateOutside?.({ router, location, route })) {
                 return false;
             }
         }
 
         // 如果有配置跳转外站函数，则执行配置函数
-        const { handleOutside } = this.router.options;
-        if (handleOutside) {
-            const res = handleOutside(route, replace);
-            if (res === false) {
-                // 如果配置函数返回 false 则跳出
-                return true;
-            }
+        // 如果配置函数返回 true 则认为其处理了打开逻辑，跳出
+        if (
+            handleOutside?.({
+                router,
+                route,
+                replace,
+                isTriggerWithWindow,
+                isSameHost
+            })
+        ) {
+            return true;
         }
 
         if (replace) {
