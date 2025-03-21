@@ -71,15 +71,16 @@ export class AbstractHistory extends BaseRouterHistory {
             return false;
         }
 
-        // 如果域名相同则跳出
-        if (this.isSameHost(location, route)) {
+        // 如果域名相同 和 非外站（存在就算同域也会被视为外站的情况） 则跳出
+        const isSameHost = this.isSameHost(location, route);
+        if (isSameHost && !this.router.options.isOutside?.(location, route)) {
             return false;
         }
 
         // 如果有配置跳转外站函数，则执行配置函数
         const { handleOutside } = this.router.options;
         if (handleOutside) {
-            const res = handleOutside(route, replace);
+            const res = handleOutside(route, replace, isSameHost);
             if (res === false) {
                 // 如果配置函数返回 false 则跳出
                 return true;

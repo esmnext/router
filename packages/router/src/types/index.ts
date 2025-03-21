@@ -264,10 +264,22 @@ export interface RouterOptions {
     noBackNavigation?: (router: RouterInstance) => void;
 
     /**
+     * 判断是否是外部链接。在同域时调用，用于处理同域也被视为外站的情况
+     * @param url 要判断的链接
+     * @param route 虚假的 route 信息
+     * @returns 是否是外部链接，返回 `true` 会调用 `handleOutside`。返回 `false | undefined` 会继续路由跳转
+     */
+    isOutside?: (url: RouterRawLocation, route: Route) => boolean | undefined;
+
+    /**
      * 路由跳转到外部链接时触发
      * 返回 false 才会阻止路由跳转外站的默认行为
      */
-    handleOutside?: (route: Route, replace: boolean) => boolean | undefined;
+    handleOutside?: (
+        route: Route,
+        replace: boolean,
+        isSameHost: boolean
+    ) => boolean | undefined;
 
     /**
      * 路由配置使用的 route
