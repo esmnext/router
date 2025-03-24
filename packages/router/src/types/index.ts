@@ -31,7 +31,7 @@ export interface HistoryState {
 /**
  * 路由的meta配置
  */
-export interface RouteMeta extends Record<string | number | symbol, unknown> { }
+export interface RouteMeta extends Record<string | number | symbol, unknown> {}
 
 /**
  * 路由模式
@@ -154,14 +154,14 @@ export interface RouteConfig {
 export type RouterBase =
     | string
     | ((params: {
-        fullPath: string;
-        /**
-         * 按 Hanson 要求加入 undefined 类型
-         */
-        query: Record<string, string | undefined>;
-        queryArray: Record<string, string[]>;
-        hash: string;
-    }) => string);
+          fullPath: string;
+          /**
+           * 按 Hanson 要求加入 undefined 类型
+           */
+          query: Record<string, string | undefined>;
+          queryArray: Record<string, string[]>;
+          hash: string;
+      }) => string);
 
 /**
  * Scroll position 与 {@link https://developer.mozilla.org/en-US/docs/Web/API/ScrollToOptions | `ScrollToOptions`} 相似.
@@ -285,7 +285,7 @@ export interface RouterOptions {
      * @param isSameHost 是否是同域。
      * * 客户端如果 `isTriggerWithWindow === true && isSameHost === true`，意味着 `validateOutside` 返回了 `true`
      * * 服务端如果 `isSameHost === true`，意味着 `validateOutside` 返回了 `true`
-     * @returns 返回 `true` 会阻止路由跳转外站的默认行为
+     * @returns 返回 `true` 代表你自己已经处理了外部链接跳转，不会继续默认的路由跳转逻辑
      */
     handleOutside?: (context: {
         router: RouterInstance;
@@ -459,9 +459,7 @@ export interface RouterHistory {
     /**
      * 初始化方法
      */
-    init: (params?: {
-        replace?: boolean;
-    }) => Promise<void>;
+    init: (params?: { replace?: boolean }) => Promise<void>;
 
     /**
      * 卸载方法
@@ -489,11 +487,11 @@ export interface RouterLocation {
  */
 export type RouterRawLocation =
     | (RouterLocation & {
-        /**
-         * 设置此参数后，不保存滚动位置，跳转后页面位置仍在原处
-         */
-        keepScrollPosition?: boolean;
-    })
+          /**
+           * 设置此参数后，不保存滚动位置，跳转后页面位置仍在原处
+           */
+          keepScrollPosition?: boolean;
+      })
     | string;
 
 /**
@@ -646,7 +644,6 @@ export interface RegisteredConfig {
  * 路由类实例
  */
 export interface RouterInstance {
-
     /**
      * 当前路由对象的上级路由对象
      */
@@ -794,11 +791,14 @@ export interface RouterInstance {
     /**
      * 路由弹层id与路由实例的map
      */
-    layerMap: Record<number, {
-        router: RouterInstance;
-        config: RegisteredConfig;
-        destroyed: boolean;
-    }>;
+    layerMap: Record<
+        number,
+        {
+            router: RouterInstance;
+            config: RegisteredConfig;
+            destroyed: boolean;
+        }
+    >;
 
     /**
      * 更新路由弹层方法
