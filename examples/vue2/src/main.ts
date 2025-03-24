@@ -36,11 +36,20 @@ const router = createRouter({
         console.log('@noBackNavigation');
     },
     nextTick: Vue.nextTick,
-    handleOutside: (location, replace) => {
-        console.log('@handleOutside', location, replace);
-        // window.open(location.href, '_blank');
-        // return false;
-        return true;
+    validateOutside(ctx) {
+        console.log('@validateOutside', ctx);
+        console.log(ctx.router.resolve(ctx.location));
+        const route = ctx.router.resolve(ctx.location);
+        if (route.meta.openInNewWindow) {
+            return true;
+        }
+        return false;
+    },
+    handleOutside: ({route, replace}) => {
+        console.log('@handleOutside', route, replace);
+        // window.open(route.href, '_blank');
+        // return true;
+        return false;
     },
     routes: [
         {
@@ -292,6 +301,9 @@ const router = createRouter({
             appType: 'vue2',
             path: 'test4/:id/:name',
             // component: TestT4,
+            meta: {
+                openInNewWindow: true,
+            },
             asyncComponent: async () => {
                 await new Promise((resolve) => {
                     setTimeout(() => {
