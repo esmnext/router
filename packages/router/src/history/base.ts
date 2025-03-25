@@ -1,16 +1,16 @@
-import { createTasks, type Tasks } from '../task-pipe';
-import {
-    type Awaitable,
-    type NavigationGuard,
-    type NavigationGuardAfter,
-    type RouteRecord,
-    type RouterHistory,
-    type RouterInstance,
-    type RouterRawLocation
+import { type Tasks, createTasks } from '../task-pipe';
+import type {
+    Awaitable,
+    NavigationGuard,
+    NavigationGuardAfter,
+    RouteRecord,
+    RouterHistory,
+    RouterInstance,
+    RouterRawLocation
 } from '../types';
 import {
-    isEqualRoute,
     isESModule,
+    isEqualRoute,
     isSameRoute,
     normalizeLocation,
     stringifyPath

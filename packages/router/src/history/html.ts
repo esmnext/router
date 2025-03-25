@@ -86,9 +86,9 @@ export class HtmlHistory extends BaseRouterHistory {
             };
         }
         if (replace) {
-            this.replace(route as RouterRawLocation);
+            await this.replace(route as RouterRawLocation);
         } else {
-            this.push(route as RouterRawLocation);
+            await this.push(route as RouterRawLocation);
         }
         this.setupListeners();
     }
@@ -115,8 +115,8 @@ export class HtmlHistory extends BaseRouterHistory {
     // 处理外站跳转逻辑
     handleOutside(
         location: RouterRawLocation,
-        replace: boolean = false,
-        accessCheck: boolean = true
+        replace = false,
+        accessCheck = true
     ) {
         const { flag, route } = isPathWithProtocolOrDomain(location);
         if (accessCheck) {
@@ -162,7 +162,7 @@ export class HtmlHistory extends BaseRouterHistory {
     }
 
     // 跳转方法
-    async jump(location: RouterRawLocation, replace: boolean = false) {
+    async jump(location: RouterRawLocation, replace = false) {
         if (this.isFrozen) return;
         if (this.handleOutside(location, replace)) {
             return;

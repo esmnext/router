@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { provide, inject } from "vue";
+import { inject, provide } from 'vue';
 console.log('@inject test-4', inject('inject', 'default'));
 provide('inject', 'test-4');
 </script>

@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { computed } from "vue"
-import { useRoute, useRouter } from "@gez/router-vue3"
+import { useRoute, useRouter } from '@gez/router-vue3';
+import { computed } from 'vue';
 
 const route = useRoute();
 const routeJson = computed(() => {
-  const { matched, ...rest } = route;
-  return JSON.stringify(rest, null, 4);
-})
+    const { matched, ...rest } = route;
+    return JSON.stringify(rest, null, 4);
+});
 
 const router = useRouter();
 
 function click() {
-  console.log(route);
+    console.log(route);
 }
 </script>
 

@@ -1,5 +1,5 @@
 import type { Route, RouterInstance } from '@gez/router';
-import { type VueConstructor } from 'vue';
+import type { VueConstructor } from 'vue';
 interface VueWithRouter extends Vue {
     _routerRoot: VueWithRouter;
     _router: RouterInstance;
@@ -31,4 +31,3 @@ export declare class RouterVuePlugin {
     static _Vue: VueConstructor;
     static install(Vue: VueConstructor): void;
 }
-export {};

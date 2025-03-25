@@ -1,8 +1,8 @@
-import {
-    type Route,
-    type RouteRecord,
-    type RouterInstance,
-    type RouterRawLocation
+import type {
+    Route,
+    RouteRecord,
+    RouterInstance,
+    RouterRawLocation
 } from '../types';
 import { isPathWithProtocolOrDomain, normalizeLocation } from '../utils';
 import { BaseRouterHistory } from './base';
@@ -23,9 +23,9 @@ export class AbstractHistory extends BaseRouterHistory {
         if (initUrl !== undefined) {
             // 存在 initUrl 则用 initUrl 进行初始化
             if (replace) {
-                this.replace(initUrl);
+                await this.replace(initUrl);
             } else {
-                this.push(initUrl);
+                await this.push(initUrl);
             }
         }
     }
@@ -64,7 +64,7 @@ export class AbstractHistory extends BaseRouterHistory {
     }
 
     // 处理外站跳转逻辑
-    handleOutside(location: RouterRawLocation, replace: boolean = false) {
+    handleOutside(location: RouterRawLocation, replace = false) {
         const { flag, route } = isPathWithProtocolOrDomain(location);
         if (!flag) {
             // 如果不以域名开头则跳出
@@ -100,7 +100,7 @@ export class AbstractHistory extends BaseRouterHistory {
     }
 
     // 跳转方法
-    async jump(location: RouterRawLocation, replace: boolean = false) {
+    async jump(location: RouterRawLocation, replace = false) {
         if (this.handleOutside(location, replace)) {
             return;
         }

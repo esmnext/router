@@ -1,8 +1,8 @@
-import Vue, { nextTick } from 'vue'
-import App from './App.vue'
+import Vue, { nextTick } from 'vue';
+import App from './App.vue';
 
-import { createRouter, RouterMode } from '@gez/router';
-import { RouterVuePlugin } from '@gez/router-vue2'
+import { RouterMode, createRouter } from '@gez/router';
+import { RouterVuePlugin } from '@gez/router-vue2';
 
 import Test from '@/components/Test.vue';
 import TestT1 from '@/components/TestT1.vue';
@@ -38,11 +38,11 @@ const router = createRouter({
             },
             children: [
                 {
-                    path: "test2",
+                    path: 'test2',
                     component: TestT2,
                     meta: {
                         title: 'test1/test2'
-                    },
+                    }
                 }
             ]
         },
@@ -90,7 +90,7 @@ const router = createRouter({
             appType: 'vue2',
             path: '(.*)*',
             asyncComponent: () => import('./components/All.vue')
-        },
+        }
     ]
 });
 
@@ -106,7 +106,7 @@ router.register('vue2', (router) => {
         mount() {
             app = new Vue({
                 render: (h) => h(App),
-                router,
+                router
             });
             const target = document.createElement('div');
             // target.style.cssText = `
@@ -139,7 +139,7 @@ router.register('vue2', (router) => {
             app.$el.remove();
             app.$destroy();
         }
-    }
+    };
 });
 
 await router.init();

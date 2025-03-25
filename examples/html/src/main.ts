@@ -1,12 +1,12 @@
-import { createRouter, type RouterInstance } from '@gez/router';
+import { type RouterInstance, createRouter } from '@gez/router';
 // import Handlebars from 'handlebars';
 
+import All from './template/all';
 import Test from './template/test';
 import Test1 from './template/test1';
 import Test2 from './template/test2';
 import Test3 from './template/test3';
 import Test4 from './template/test4';
-import All from './template/all';
 
 const router = createRouter({
     routes: [
@@ -16,24 +16,24 @@ const router = createRouter({
             component: Test,
             children: [
                 {
-                    path: "",
+                    path: '',
                     component: Test1,
                     meta: {
                         title: 'Test1'
                     },
                     children: [
                         {
-                            path: "",
+                            path: '',
                             component: Test2,
                             children: [
                                 {
-                                    path: "",
+                                    path: '',
                                     component: Test3
-                                },
+                                }
                             ]
-                        },
+                        }
                     ]
-                },
+                }
             ]
         },
         {
@@ -42,7 +42,7 @@ const router = createRouter({
             component: Test1,
             children: [
                 {
-                    path: "test2",
+                    path: 'test2',
                     component: Test2
                 }
             ]
@@ -67,7 +67,7 @@ const router = createRouter({
             appType: 'html',
             path: '(.*)',
             component: All
-        },
+        }
     ]
 });
 
@@ -102,7 +102,7 @@ router.register('html', (router) => {
         destroy() {
             console.log('@destroy');
         }
-    }
+    };
 });
 
 router.init();

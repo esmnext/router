@@ -1,13 +1,13 @@
 <script lang="ts">
-import { provide, inject } from "vue";
+import { inject, provide } from 'vue';
 export default {
-    name: "test",
+    name: 'test',
     beforeCreate() {
         console.log('@inject test', inject('inject', 'default'));
-        provide('inject', 'test')
-        console.log("@beforeCreate test");
+        provide('inject', 'test');
+        console.log('@beforeCreate test');
     }
-}
+};
 </script>
 
 <template>
