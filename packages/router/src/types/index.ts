@@ -148,7 +148,7 @@ export interface RouteConfig {
 /**
  * 路由前置部分
  * 例： https://www.google.com:443/en/news/123
- * 客户端传入 en /en /en/ 均可
+ * 客户端传入 https://www.google.com:443/en https://www.google.com:443/en/
  * 服务端传入 https://www.google.com:443/en https://www.google.com:443/en/
  */
 export type RouterBase =

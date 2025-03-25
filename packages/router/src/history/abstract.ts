@@ -55,7 +55,8 @@ export class AbstractHistory extends BaseRouterHistory {
         replace = false,
         isTriggerWithWindow = false
     ) {
-        const { flag, route } = isPathWithProtocolOrDomain(location);
+        const base = this.router.base;
+        const { flag, route } = isPathWithProtocolOrDomain(location, base);
         if (!flag) {
             // 如果不以域名开头则跳出
             return false;

@@ -1,4 +1,5 @@
 import URLParse from 'url-parse';
+import normalizeUrl from 'normalize-url';
 
 import type {
     HistoryState,
@@ -15,7 +16,7 @@ import {
     encodeQueryValue
 } from './encoding';
 import { isValidValue } from './utils';
-import { warn } from './warn';
+import { warn, assert } from './warn';
 
 /**
  * 判断路径是否以 http 或 https 开头 或者直接是域名开头
@@ -270,7 +271,7 @@ export function normalizeLocation(
 /**
  * 判断路径是否以协议或域名开头
  */
-export function isPathWithProtocolOrDomain(location: RouterRawLocation): {
+export function isPathWithProtocolOrDomain(location: RouterRawLocation, base: RouterBase = ''): {
     /**
      * 是否以协议或域名开头
      */
@@ -282,6 +283,17 @@ export function isPathWithProtocolOrDomain(location: RouterRawLocation): {
 } {
     let url = '';
     let state = {};
+    let baseString = '';
+    if (typeof base === 'string') {
+        baseString = base;
+    } else {
+        baseString = base({
+            fullPath: '',
+            query: {},
+            queryArray: {},
+            hash: ''
+        });
+    }
 
     if (typeof location === 'string') {
         url = location;
@@ -303,51 +315,53 @@ export function isPathWithProtocolOrDomain(location: RouterRawLocation): {
         });
     }
 
-    // 如果以 scheme 协议开头 并且不是 http(s) 协议开头 则认为是外站跳转
-    if (regexScheme.test(url) && !regexHttpScheme.test(url)) {
+    try {
+        url = normalizeUrl(url);
+    } catch (error) {
         try {
-            const {
-                hash,
-                host,
-                hostname,
-                href,
-                origin,
-                pathname,
-                port,
-                protocol,
-                search
-            } = new URL(url);
-            const route: Route = {
-                hash,
-                host,
-                hostname,
-                href,
-                origin,
-                pathname,
-                port,
-                protocol,
-                search,
-                params: {},
-                query: {},
-                queryArray: {},
-                state,
-                meta: {},
-                path: pathname,
-                fullPath: url,
-                base: '',
-                matched: []
-            };
-            return {
-                flag: true,
-                route
-            };
+            url = new URL(url, baseString).href;
         } catch (error) {
-            warn(error);
+            assert(false, `Invalid URL: ${url}`);
         }
     }
 
-    if (!/^https?:\/\//i.test(url)) {
-        url = `http://${url}`;
+    // 如果以 scheme 协议开头 并且不是 http(s) 协议开头 则认为是外站跳转
+    if (regexScheme.test(url) && !regexHttpScheme.test(url)) {
+        const {
+            hash,
+            host,
+            hostname,
+            href,
+            origin,
+            pathname,
+            port,
+            protocol,
+            search
+        } = new URL(url);
+        const route: Route = {
+            hash,
+            host,
+            hostname,
+            href,
+            origin,
+            pathname,
+            port,
+            protocol,
+            search,
+            params: {},
+            query: {},
+            queryArray: {},
+            state,
+            meta: {},
+            path: pathname,
+            fullPath: url,
+            base: '',
+            matched: []
+        };
+        return {
+            flag: true,
+            route
+        };
     }
 
     const {
