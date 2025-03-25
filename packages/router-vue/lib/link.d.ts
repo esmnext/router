@@ -1,5 +1,5 @@
-import { type RouterRawLocation } from '@gez/router';
-import { type PropType } from 'vue';
+import type { RouterRawLocation } from '@gez/router';
+import type { PropType } from 'vue';
 export interface RouterLinkProps {
     /**
      * 前往的路由路径
@@ -42,60 +42,74 @@ export interface RouterLinkProps {
      */
     event: string | string[];
 }
-export declare const RouterLink: import("vue/types").DefineComponent<{
-    to: {
-        type: PropType<RouterRawLocation>;
-        required: true;
-    };
-    tag: {
-        type: PropType<string>;
-        default: string;
-    };
-    replace: {
-        type: PropType<boolean>;
-        default: boolean;
-    };
-    exact: {
-        type: PropType<"include" | "route" | "exact">;
-        default: string;
-    };
-    activeClass: {
-        type: PropType<string>;
-        default: string;
-    };
-    event: {
-        type: PropType<string | string[]>;
-        default: string;
-    };
-}, {}, {}, import("vue/types").ComponentComputedOptions, import("vue/types").ComponentMethodOptions, import("vue/types").ComponentOptionsMixin, import("vue/types").ComponentOptionsMixin, {}, string, Readonly<import("vue/types").ExtractPropTypes<{
-    to: {
-        type: PropType<RouterRawLocation>;
-        required: true;
-    };
-    tag: {
-        type: PropType<string>;
-        default: string;
-    };
-    replace: {
-        type: PropType<boolean>;
-        default: boolean;
-    };
-    exact: {
-        type: PropType<"include" | "route" | "exact">;
-        default: string;
-    };
-    activeClass: {
-        type: PropType<string>;
-        default: string;
-    };
-    event: {
-        type: PropType<string | string[]>;
-        default: string;
-    };
-}>>, {
-    exact: "include" | "route" | "exact";
-    tag: string;
-    replace: boolean;
-    activeClass: string;
-    event: string | string[];
-}>;
+export declare const RouterLink: import('vue/types').DefineComponent<
+    {
+        to: {
+            type: PropType<RouterRawLocation>;
+            required: true;
+        };
+        tag: {
+            type: PropType<string>;
+            default: string;
+        };
+        replace: {
+            type: PropType<boolean>;
+            default: boolean;
+        };
+        exact: {
+            type: PropType<'include' | 'route' | 'exact'>;
+            default: string;
+        };
+        activeClass: {
+            type: PropType<string>;
+            default: string;
+        };
+        event: {
+            type: PropType<string | string[]>;
+            default: string;
+        };
+    },
+    {},
+    {},
+    import('vue/types').ComponentComputedOptions,
+    import('vue/types').ComponentMethodOptions,
+    import('vue/types').ComponentOptionsMixin,
+    import('vue/types').ComponentOptionsMixin,
+    {},
+    string,
+    Readonly<
+        import('vue/types').ExtractPropTypes<{
+            to: {
+                type: PropType<RouterRawLocation>;
+                required: true;
+            };
+            tag: {
+                type: PropType<string>;
+                default: string;
+            };
+            replace: {
+                type: PropType<boolean>;
+                default: boolean;
+            };
+            exact: {
+                type: PropType<'include' | 'route' | 'exact'>;
+                default: string;
+            };
+            activeClass: {
+                type: PropType<string>;
+                default: string;
+            };
+            event: {
+                type: PropType<string | string[]>;
+                default: string;
+            };
+        }>
+    >,
+    {
+        exact: 'include' | 'route' | 'exact';
+        tag: string;
+        replace: boolean;
+        activeClass: string;
+        event: string | string[];
+    }
+>;

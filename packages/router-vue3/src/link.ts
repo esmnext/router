@@ -1,10 +1,10 @@
 import {
-    isEqualRoute,
-    isSameRoute,
     type RouteRecord,
-    type RouterRawLocation
+    type RouterRawLocation,
+    isEqualRoute,
+    isSameRoute
 } from '@gez/router';
-import { defineComponent, h, type PropType } from 'vue';
+import { type PropType, defineComponent, h } from 'vue';
 
 import { useRoute, useRouter } from './use';
 

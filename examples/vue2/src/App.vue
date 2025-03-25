@@ -1,20 +1,19 @@
 <!-- <script setup lang="ts">
-import { computed, watch } from "vue"
-import { useRoute, useRouter } from "@gez/router-vue2"
+import { useRoute, useRouter } from '@gez/router-vue2';
+import { computed, watch } from 'vue';
 
 const router = useRouter();
 
 const $route = useRoute();
 
 const route = computed(() => {
-  const { matched, ...rest } = $route;
-  return JSON.stringify(rest, null, 4);
-})
-
-watch($route, (cur, old) => {
-  console.log('@update', cur, cur.fullPath, cur === router.route);
+    const { matched, ...rest } = $route;
+    return JSON.stringify(rest, null, 4);
 });
 
+watch($route, (cur, old) => {
+    console.log('@update', cur, cur.fullPath, cur === router.route);
+});
 </script> -->
 <script lang="ts">
 export default {

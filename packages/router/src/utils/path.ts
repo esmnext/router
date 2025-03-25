@@ -1,11 +1,11 @@
 import URLParse from 'url-parse';
 
-import {
-    type HistoryState,
-    type Route,
-    type RouterBase,
-    type RouterLocation,
-    type RouterRawLocation
+import type {
+    HistoryState,
+    Route,
+    RouterBase,
+    RouterLocation,
+    RouterRawLocation
 } from '../types';
 import {
     decode,
@@ -84,7 +84,7 @@ export function normalizePath(path: string, parentPath?: string) {
  * @example 输入 https://www.google.com/test1/test2?a=1&b=2#123 输出 { pathname: '/test1/test2', query: { a: '1', b: '2' }, queryArray: { a: ['1'], b: ['2'] }, hash: '123' }
  * 输入 /test1/test2?a=1&b=2#123 同样输出 { pathname: '/test1/test2', query: { a: '1', b: '2' }, queryArray: { a: ['1'], b: ['2'] }, hash: '123' }
  */
-export function parsePath(path: string = ''): {
+export function parsePath(path = ''): {
     pathname: string;
     query: Record<string, string>;
     queryArray: Record<string, string[]>;
@@ -190,11 +190,11 @@ export function normalizeLocation(
     base: string;
     queryArray: Record<string, string[]>;
 } {
-    let pathname: string = '';
+    let pathname = '';
     /* 按 Hanson 要求加入 undefined 类型 */
     let query: Record<string, string | undefined> = {};
     let queryArray: Record<string, string[]> = {};
-    let hash: string = '';
+    let hash = '';
     let params: Record<string, string> | undefined;
     let state: HistoryState = {};
 
@@ -280,7 +280,7 @@ export function isPathWithProtocolOrDomain(location: RouterRawLocation): {
      */
     route: Route;
 } {
-    let url: string = '';
+    let url = '';
     let state = {};
 
     if (typeof location === 'string') {

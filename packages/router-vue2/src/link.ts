@@ -5,7 +5,7 @@ import {
     type RouteRecord,
     type RouterRawLocation
 } from '@gez/router';
-import { defineComponent, type PropType } from 'vue';
+import { type PropType, defineComponent } from 'vue';
 
 import { useRoute, useRouter } from './use';
 

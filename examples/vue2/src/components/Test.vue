@@ -1,10 +1,10 @@
 <script lang="ts">
 export default {
-    name: "test",
+    name: 'test',
     beforeCreate() {
-        console.log("@beforeCreate test");
+        console.log('@beforeCreate test');
     }
-}
+};
 </script>
 
 <template>

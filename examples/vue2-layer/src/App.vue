@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, watch } from "vue"
-import { useRoute, useRouter } from "@gez/router-vue2"
+import { useRoute, useRouter } from '@gez/router-vue2';
+import { computed, watch } from 'vue';
 
 // const $router = useRouter();
 

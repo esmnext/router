@@ -9,8 +9,8 @@ import {
     type RegisteredConfig,
     type RegisteredConfigMap,
     type Route,
-    type RouterBase,
     type RouteRecord,
+    type RouterBase,
     type RouterHistory,
     type RouterInitOptions,
     type RouterInstance,
@@ -317,7 +317,7 @@ export class Router implements RouterInstance {
     /**
      * 当前路由弹层id，用于区分不同的路由弹层
      */
-    layerId: number = 0;
+    layerId = 0;
 
     /**
      * 路由弹层配置
@@ -349,7 +349,7 @@ export class Router implements RouterInstance {
     /**
      * 路由是否冻结
      */
-    isFrozen: boolean = false;
+    isFrozen = false;
 
     /**
      * 路由冻结方法
@@ -496,7 +496,7 @@ export class Router implements RouterInstance {
     }
 
     /* 前往特定路由历史记录的方法，可以在历史记录前后移动 */
-    go(delta: number = 0) {
+    go(delta = 0) {
         this.history.go(delta);
     }
 
