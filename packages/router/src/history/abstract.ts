@@ -52,8 +52,8 @@ export class AbstractHistory extends BaseRouterHistory {
     // 处理外站跳转逻辑
     handleOutside(
         location: RouterRawLocation,
-        replace: boolean = false,
-        isTriggerWithWindow: boolean = false
+        replace = false,
+        isTriggerWithWindow = false
     ) {
         const { flag, route } = isPathWithProtocolOrDomain(location);
         if (!flag) {
@@ -107,14 +107,14 @@ export class AbstractHistory extends BaseRouterHistory {
     }
 
     // 跳转方法
-    async jump(location: RouterRawLocation, replace: boolean = false) {
+    async jump(location: RouterRawLocation, replace = false) {
         await this._jump(location, replace);
     }
 
     private async _jump(
         location: RouterRawLocation,
-        replace: boolean = false,
-        isTriggerWithWindow: boolean = false
+        replace = false,
+        isTriggerWithWindow = false
     ) {
         if (this.handleOutside(location, replace, isTriggerWithWindow)) {
             return;

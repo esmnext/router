@@ -1,8 +1,4 @@
-import {
-    type RouterInstance,
-    type RouterRawLocation,
-    StateLayerConfigKey
-} from '../types';
+import type { RouterInstance, RouterRawLocation } from '../types';
 import {
     computeScrollPosition,
     getKeepScrollPosition,
@@ -115,9 +111,9 @@ export class HtmlHistory extends BaseRouterHistory {
     // 处理外站跳转逻辑
     handleOutside(
         location: RouterRawLocation,
-        replace: boolean = false,
+        replace = false,
         // 是否是 pushWindow/replaceWindow 触发的
-        isTriggerWithWindow: boolean = false
+        isTriggerWithWindow = false
     ) {
         const { flag, route } = isPathWithProtocolOrDomain(location);
         const router = this.router;

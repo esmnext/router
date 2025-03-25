@@ -47,9 +47,9 @@ const router = createRouter({
     },
     handleOutside: ({route, replace}) => {
         console.log('@handleOutside', route, replace);
-        // window.open(route.href, '_blank');
-        // return true;
-        return false;
+        window.open(route.href, '_blank');
+        return true;
+        // return false;
     },
     routes: [
         {
