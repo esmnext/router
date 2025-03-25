@@ -1,6 +1,6 @@
 {
     "name": "example",
-    "version": "0.0.75-alpha.2",
+    "version": "0.0.75-alpha.3",
     "private": true,
     "scripts": {
         "dev": "vite",
