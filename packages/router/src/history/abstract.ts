@@ -49,42 +49,35 @@ export class AbstractHistory extends BaseRouterHistory {
         return base.includes(route.hostname);
     }
 
-    /**
-     * 新开浏览器窗口的方法，在服务端会调用 push 作为替代
-     */
-    pushWindow(location: RouterRawLocation) {
-        this.push(location);
-    }
-
-    /**
-     * 替换当前浏览器窗口的方法，在服务端会调用 replace 作为替代
-     */
-    replaceWindow(location: RouterRawLocation) {
-        this.replace(location);
-    }
-
     // 处理外站跳转逻辑
-    handleOutside(location: RouterRawLocation, replace: boolean = false) {
+    handleOutside(
+        location: RouterRawLocation,
+        replace: boolean = false,
+        isTriggerWithWindow: boolean = false
+    ) {
         const { flag, route } = isPathWithProtocolOrDomain(location);
         if (!flag) {
             // 如果不以域名开头则跳出
             return false;
         }
 
-        // 如果域名相同则跳出
-        if (this.isSameHost(location, route)) {
+        const router = this.router;
+        const { validateOutside, handleOutside } = router.options;
+
+        // 如果域名相同 和 非外站（存在就算同域也会被视为外站的情况） 则跳出
+        const isSameHost = this.isSameHost(location, route);
+        if (isSameHost && !validateOutside?.({ router, location, route })) {
             return false;
         }
 
         // 如果有配置跳转外站函数，则执行配置函数
-        const { handleOutside } = this.router.options;
-        if (handleOutside) {
-            const res = handleOutside(route, replace);
-            if (res === false) {
-                // 如果配置函数返回 false 则跳出
-                return true;
-            }
-        }
+        handleOutside?.({
+            router,
+            route,
+            replace,
+            isTriggerWithWindow,
+            isSameHost
+        });
 
         return true;
     }
@@ -94,14 +87,36 @@ export class AbstractHistory extends BaseRouterHistory {
         await this.jump(location, false);
     }
 
+    /**
+     * 新开浏览器窗口的方法，在服务端会调用 push 作为替代
+     */
+    async pushWindow(location: RouterRawLocation) {
+        await this._jump(location, false, true);
+    }
+
     // 替换当前路由记录跳转
     async replace(location: RouterRawLocation) {
         await this.jump(location, true);
     }
 
+    /**
+     * 替换当前浏览器窗口的方法，在服务端会调用 replace 作为替代
+     */
+    async replaceWindow(location: RouterRawLocation) {
+        await this._jump(location, true, true);
+    }
+
     // 跳转方法
     async jump(location: RouterRawLocation, replace: boolean = false) {
-        if (this.handleOutside(location, replace)) {
+        await this._jump(location, replace);
+    }
+
+    private async _jump(
+        location: RouterRawLocation,
+        replace: boolean = false,
+        isTriggerWithWindow: boolean = false
+    ) {
+        if (this.handleOutside(location, replace, isTriggerWithWindow)) {
             return;
         }
 
