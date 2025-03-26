@@ -112,7 +112,7 @@ export class AbstractHistory extends BaseRouterHistory {
         await this._jump(location, replace);
     }
 
-    private async _jump(
+    async _jump(
         location: RouterRawLocation,
         replace = false,
         isTriggerWithWindow = false

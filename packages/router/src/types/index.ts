@@ -285,7 +285,7 @@ export interface RouterOptions {
      * @param isSameHost 是否是同域。
      * * 客户端如果 `isTriggerWithWindow === true && isSameHost === true`，意味着 `validateOutside` 返回了 `true`
      * * 服务端如果 `isSameHost === true`，意味着 `validateOutside` 返回了 `true`
-     * @returns 返回 `true` 代表你自己已经处理了外部链接跳转，不会继续默认的路由跳转逻辑
+     * @returns 返回 `false` 认为使用者已自行处理跳转行为，不会继续默认的路由跳转逻辑
      */
     handleOutside?: (context: {
         router: RouterInstance;
