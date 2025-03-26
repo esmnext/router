@@ -15,7 +15,6 @@ export class AbstractHistory extends BaseRouterHistory {
         super(router);
         this.index = -1;
         this.stack = [];
-        this.init();
     }
 
     async init({ replace }: { replace?: boolean } = { replace: true }) {
