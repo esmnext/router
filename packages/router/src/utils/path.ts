@@ -316,7 +316,10 @@ export function isPathWithProtocolOrDomain(location: RouterRawLocation, base: Ro
     }
 
     try {
-        url = normalizeUrl(url);
+        url = normalizeUrl(url, {
+            stripWWW: false,
+            removeQueryParameters: false,
+        });
     } catch (error) {
         try {
             url = new URL(url, baseString).href;
