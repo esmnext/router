@@ -319,6 +319,7 @@ export function isPathWithProtocolOrDomain(location: RouterRawLocation, base: Ro
         url = normalizeUrl(url, {
             stripWWW: false,
             removeQueryParameters: false,
+            sortQueryParameters: false,
         });
     } catch (error) {
         try {
