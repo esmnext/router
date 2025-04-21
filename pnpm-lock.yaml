@@ -165,6 +165,9 @@ importers:
 
   packages/router:
     dependencies:
+      normalize-url:
+        specifier: ^8.0.1
+        version: 8.0.1
       path-to-regexp:
         specifier: ^6.2.2
         version: 6.2.2
@@ -206,8 +209,8 @@ importers:
         specifier: 0.0.9
         version: 0.0.9(eslint@8.57.0)(postcss@8.4.41)(stylelint@16.5.0(typescript@5.4.5))(typescript@5.4.5)
       '@gez/router':
-        specifier: 0.1.0-alpha.0
-        version: 0.1.0-alpha.0
+        specifier: workspace:*
+        version: link:../router
       '@types/node':
         specifier: 20.12.12
         version: 20.12.12
@@ -236,8 +239,8 @@ importers:
   packages/router-vue2:
     dependencies:
       '@gez/router':
-        specifier: 0.1.0-alpha.0
-        version: 0.1.0-alpha.0
+        specifier: workspace:*
+        version: link:../router
     devDependencies:
       '@gez/lint':
         specifier: 0.0.9
@@ -270,8 +273,8 @@ importers:
   packages/router-vue3:
     dependencies:
       '@gez/router':
-        specifier: 0.1.0-alpha.0
-        version: 0.1.0-alpha.0
+        specifier: workspace:*
+        version: link:../router
     devDependencies:
       '@gez/lint':
         specifier: 0.0.9
@@ -925,9 +928,6 @@ packages:
     peerDependencies:
       eslint: '>=8.57.0'
       stylelint: '>=16.5.0'
-
-  '@gez/router@0.1.0-alpha.0':
-    resolution: {integrity: sha512-JxWIhkDDYnAvDW7KRAQFtEvgCAAEB/gOZSbQ6ffs4/8VkFGRp3x+uKs30Si7iTJprsF/tTD5+wn3S1KyBjuqmQ==}
 
   '@humanwhocodes/config-array@0.11.14':
     resolution: {integrity: sha512-3T8LkOmg45BV5FICb15QQMsyUSWrQ8AygVfC7ZG32zOalnqrilm018ZVCw0eapXux8FtA33q8PSRSstjee3jSg==}
@@ -2070,6 +2070,7 @@ packages:
   eslint@8.57.0:
     resolution: {integrity: sha512-dZ6+mexnaTIbSBZWgou51U6OmzIhYM2VcNdtiTtI7qPNZm35Akpr0f6vtw3w1Kmn5PYo+tZVfh13WrhpS6oLqQ==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+    deprecated: This version is no longer supported. Please see https://eslint.org/version-support for other options.
     hasBin: true
 
   espree@9.6.1:
@@ -2731,6 +2732,10 @@ packages:
   normalize-range@0.1.2:
     resolution: {integrity: sha512-bdok/XvKII3nUpklnV6P2hxtMNrCboOjAcyBuQnWEhO665FwrSNRxU+AqpsyvO6LgGYPspN+lu5CLtw4jPRKNA==}
     engines: {node: '>=0.10.0'}
+
+  normalize-url@8.0.1:
+    resolution: {integrity: sha512-IO9QvjUMWxPQQhs60oOu10CRkWCiZzSUkzbXGGV9pviYl1fXYcvkzQ5jV9z8Y6un8ARoVRl4EtC6v6jNqbaJ/w==}
+    engines: {node: '>=14.16'}
 
   npm-run-all@4.1.5:
     resolution: {integrity: sha512-Oo82gJDAVcaMdi3nuoKFavkIHBRVqQ1qvMb+9LHk/cF4P6B2m8aP04hGf7oL6wZ9BuGwX1onlLhpuoofSyoQDQ==}
@@ -4218,11 +4223,6 @@ snapshots:
       - postcss
       - supports-color
       - typescript
-
-  '@gez/router@0.1.0-alpha.0':
-    dependencies:
-      path-to-regexp: 6.2.2
-      url-parse: 1.5.10
 
   '@humanwhocodes/config-array@0.11.14':
     dependencies:
@@ -6216,6 +6216,8 @@ snapshots:
   normalize-path@3.0.0: {}
 
   normalize-range@0.1.2: {}
+
+  normalize-url@8.0.1: {}
 
   npm-run-all@4.1.5:
     dependencies:

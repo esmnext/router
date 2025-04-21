@@ -5,7 +5,7 @@
     "type": "module",
     "scripts": {
         "prepare": "./prepare.sh",
-        "lint:css": "lerna run lint:css",
+        "lint:css": "pnpm --filter \"*\" lint:css",
         "lint:js": "biome check --write --no-errors-on-unmatched",
         "lint:type": "pnpm --filter \"*\" lint:type",
         "build:packages": "pnpm --filter \"./packages/**\" build",
@@ -15,7 +15,7 @@
     "engines": {
         "lerna": ">=8",
         "node": ">=22",
-        "pnpm": ">=9"
+        "pnpm": ">=10"
     },
     "devDependencies": {
         "lint-staged": "15.2.4",
@@ -29,5 +29,18 @@
     "workspaces": [
         "packages/*",
         "examples/*"
-    ]
+    ],
+    "pnpm": {
+        "onlyBuiltDependencies": [
+            "@biomejs/biome",
+            "@gez/router-vue",
+            "esbuild"
+        ],
+        "ignoredBuiltDependencies": [
+            "core-js",
+            "swiper",
+            "puppeteer",
+            "protobufjs"
+        ]
+    }
 }

@@ -33,7 +33,7 @@ function getLatestLayerId() {
 /**
  * 路由类
  */
-class Router implements RouterInstance {
+export class Router implements RouterInstance {
     /**
      * 当前路由对象的上级路由对象
      */

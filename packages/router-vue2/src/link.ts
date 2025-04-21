@@ -1,8 +1,8 @@
 import {
-    type RouteRecord,
-    type RouterRawLocation,
     isEqualRoute,
-    isSameRoute
+    isSameRoute,
+    type RouteRecord,
+    type RouterRawLocation
 } from '@gez/router';
 import { type PropType, defineComponent } from 'vue';
 

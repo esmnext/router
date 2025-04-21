@@ -1,4 +1,5 @@
 import URLParse from 'url-parse';
+import normalizeUrl from 'normalize-url';
 
 import type {
     HistoryState,
@@ -15,12 +16,23 @@ import {
     encodeQueryValue
 } from './encoding';
 import { isValidValue } from './utils';
+import { warn, assert } from './warn';
 
 /**
  * 判断路径是否以 http 或 https 开头 或者直接是域名开头
  */
 export const regexDomain =
     /^(?:https?:\/\/|[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9](\/.*)?/i;
+
+/**
+ * 判断路径是否以 scheme 协议开头
+ */
+export const regexScheme = /^(?:[a-z][a-z\d+.-]*:.+)/i;
+
+/**
+ * 判断路径是否以 http(s) 协议开头
+ */
+export const regexHttpScheme = /^(http(s)?:\/\/)/;
 
 /**
  * 去除URL路径中重复的斜杠，但不改变协议部分的双斜杠。
@@ -53,7 +65,10 @@ export function normalizePath(path: string, parentPath?: string) {
     let normalizedPath = parentPath ? `${parentPath}/${path}` : `${path}`;
 
     // 当解析的路径不是以http 或 https 协议开头时，给开头加上/
-    if (!/^(http(s)?:\/\/)/.test(normalizedPath)) {
+    if (
+        !regexHttpScheme.test(normalizedPath) &&
+        !normalizedPath.startsWith('/')
+    ) {
         normalizedPath = `/${normalizedPath}`;
     }
 
@@ -256,7 +271,7 @@ export function normalizeLocation(
 /**
  * 判断路径是否以协议或域名开头
  */
-export function isPathWithProtocolOrDomain(location: RouterRawLocation): {
+export function isPathWithProtocolOrDomain(location: RouterRawLocation, base: RouterBase = ''): {
     /**
      * 是否以协议或域名开头
      */
@@ -268,6 +283,18 @@ export function isPathWithProtocolOrDomain(location: RouterRawLocation): {
 } {
     let url = '';
     let state = {};
+    let baseString = '';
+    if (typeof base === 'string') {
+        baseString = base;
+    } else {
+        baseString = base({
+            fullPath: '',
+            query: {},
+            queryArray: {},
+            hash: ''
+        });
+    }
+
     if (typeof location === 'string') {
         url = location;
     } else {
@@ -288,8 +315,57 @@ export function isPathWithProtocolOrDomain(location: RouterRawLocation): {
         });
     }
 
-    if (!/^https?:\/\//i.test(url)) {
-        url = `http://${url}`;
+    try {
+        url = normalizeUrl(url, {
+            stripWWW: false,
+            removeQueryParameters: false,
+            sortQueryParameters: false,
+        });
+    } catch (error) {
+        try {
+            url = new URL(url, baseString).href;
+        } catch (error) {
+            assert(false, `Invalid URL: ${url}`);
+        }
+    }
+
+    // 如果以 scheme 协议开头 并且不是 http(s) 协议开头 则认为是外站跳转
+    if (regexScheme.test(url) && !regexHttpScheme.test(url)) {
+        const {
+            hash,
+            host,
+            hostname,
+            href,
+            origin,
+            pathname,
+            port,
+            protocol,
+            search
+        } = new URL(url);
+        const route: Route = {
+            hash,
+            host,
+            hostname,
+            href,
+            origin,
+            pathname,
+            port,
+            protocol,
+            search,
+            params: {},
+            query: {},
+            queryArray: {},
+            state,
+            meta: {},
+            path: pathname,
+            fullPath: url,
+            base: '',
+            matched: []
+        };
+        return {
+            flag: true,
+            route
+        };
     }
 
     const {

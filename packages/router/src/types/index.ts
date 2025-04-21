@@ -31,7 +31,7 @@ export interface HistoryState {
 /**
  * 路由的meta配置
  */
-export interface RouteMeta extends Record<string | number | symbol, unknown> { }
+export interface RouteMeta extends Record<string | number | symbol, unknown> {}
 
 /**
  * 路由模式
@@ -148,20 +148,20 @@ export interface RouteConfig {
 /**
  * 路由前置部分
  * 例： https://www.google.com:443/en/news/123
- * 客户端传入 en /en /en/ 均可
+ * 客户端传入 https://www.google.com:443/en https://www.google.com:443/en/
  * 服务端传入 https://www.google.com:443/en https://www.google.com:443/en/
  */
 export type RouterBase =
     | string
     | ((params: {
-        fullPath: string;
-        /**
-         * 按 Hanson 要求加入 undefined 类型
-         */
-        query: Record<string, string | undefined>;
-        queryArray: Record<string, string[]>;
-        hash: string;
-    }) => string);
+          fullPath: string;
+          /**
+           * 按 Hanson 要求加入 undefined 类型
+           */
+          query: Record<string, string | undefined>;
+          queryArray: Record<string, string[]>;
+          hash: string;
+      }) => string);
 
 /**
  * Scroll position 与 {@link https://developer.mozilla.org/en-US/docs/Web/API/ScrollToOptions | `ScrollToOptions`} 相似.
@@ -264,10 +264,36 @@ export interface RouterOptions {
     noBackNavigation?: (router: RouterInstance) => void;
 
     /**
-     * 路由跳转到外部链接时触发
-     * 返回 false 才会阻止路由跳转外站的默认行为
+     * 判断是否是外部链接。在同域时调用，用于处理同域也被视为外站的情况
+     * @param router 路由实例
+     * @param url 要判断的链接
+     * @param route 虚假的 route 信息
+     * @returns 是否是外部链接，返回 `false | undefined` 会继续路由跳转（`true` 会调用 `handleOutside`）。
      */
-    handleOutside?: (route: Route, replace: boolean) => boolean | undefined;
+    validateOutside?: (context: {
+        router: RouterInstance;
+        location: RouterRawLocation;
+        route: Route;
+    }) => boolean | undefined;
+
+    /**
+     * 路由跳转到外部链接时触发
+     * @param router 路由实例
+     * @param route 虚假的 route 信息
+     * @param replace 是否替换当前历史记录
+     * @param isTriggerWithWindow 是否是 pushWindow/replaceWindow 触发的
+     * @param isSameHost 是否是同域。
+     * * 客户端如果 `isTriggerWithWindow === true && isSameHost === true`，意味着 `validateOutside` 返回了 `true`
+     * * 服务端如果 `isSameHost === true`，意味着 `validateOutside` 返回了 `true`
+     * @returns 返回 `false` 认为使用者已自行处理跳转行为，不会继续默认的路由跳转逻辑
+     */
+    handleOutside?: (context: {
+        router: RouterInstance;
+        route: Route;
+        replace: boolean;
+        isTriggerWithWindow: boolean;
+        isSameHost: boolean;
+    }) => boolean | undefined;
 
     /**
      * 路由配置使用的 route
@@ -433,9 +459,7 @@ export interface RouterHistory {
     /**
      * 初始化方法
      */
-    init: (params?: {
-        replace?: boolean;
-    }) => Promise<void>;
+    init: (params?: { replace?: boolean }) => Promise<void>;
 
     /**
      * 卸载方法
@@ -463,11 +487,11 @@ export interface RouterLocation {
  */
 export type RouterRawLocation =
     | (RouterLocation & {
-        /**
-         * 设置此参数后，不保存滚动位置，跳转后页面位置仍在原处
-         */
-        keepScrollPosition?: boolean;
-    })
+          /**
+           * 设置此参数后，不保存滚动位置，跳转后页面位置仍在原处
+           */
+          keepScrollPosition?: boolean;
+      })
     | string;
 
 /**
@@ -620,7 +644,6 @@ export interface RegisteredConfig {
  * 路由类实例
  */
 export interface RouterInstance {
-
     /**
      * 当前路由对象的上级路由对象
      */
@@ -768,11 +791,14 @@ export interface RouterInstance {
     /**
      * 路由弹层id与路由实例的map
      */
-    layerMap: Record<number, {
-        router: RouterInstance;
-        config: RegisteredConfig;
-        destroyed: boolean;
-    }>;
+    layerMap: Record<
+        number,
+        {
+            router: RouterInstance;
+            config: RegisteredConfig;
+            destroyed: boolean;
+        }
+    >;
 
     /**
      * 更新路由弹层方法
