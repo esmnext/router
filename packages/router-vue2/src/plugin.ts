@@ -7,7 +7,7 @@ import { RouterView } from './view';
 interface VueWithRouter extends Vue {
     _routerRoot: VueWithRouter;
     _router: RouterInstance;
-    _route: { value: Route; count: number };
+    _route: { value: Route; _count: number; count: number };
     $parent: VueWithRouter | null;
 }
 
@@ -15,9 +15,10 @@ declare module 'vue/types/vue' {
     interface Vue {
         readonly $router: RouterInstance;
         readonly $route: Route;
+        readonly _privateRoute: Route;
         _routerRoot: VueWithRouter;
         readonly _router: RouterInstance;
-        readonly _route: { value: Route; count: number };
+        readonly _route: { value: Route; _count: number; count: number };
     }
 }
 
@@ -28,6 +29,7 @@ declare module 'vue/types/options' {
     }
 }
 
+// biome-ignore lint/complexity/noStaticOnlyClass: <explanation>
 export class RouterVuePlugin {
     static installed: boolean;
     static _Vue: VueConstructor;
@@ -53,9 +55,11 @@ export class RouterVuePlugin {
                     // 将 route 设置为响应式属性 为了解决 vue2 无法监听函数式返回 route 的问题
                     (Vue.util as any).defineReactive(this, '_route', {
                         value: this._router.route,
+                        _count: 0,
                         count: 0
                     });
                     const _event = () => {
+                        this._route._count++;
                         this._route.count++;
                     };
                     eventMap.set(this, _event);
@@ -82,6 +86,16 @@ export class RouterVuePlugin {
         Object.defineProperty(Vue.prototype, '$router', {
             get() {
                 return this._routerRoot._router;
+            }
+        });
+
+        // 定义原型$route对象
+        Object.defineProperty(Vue.prototype, '_privateRoute', {
+            enumerable: false,
+            get() {
+                // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+                this._routerRoot._route._count;
+                return this._routerRoot._route.value;
             }
         });
 

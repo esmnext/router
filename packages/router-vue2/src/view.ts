@@ -15,7 +15,7 @@ export const RouterView = defineComponent({
         let { parent } = ctx;
         const { data } = ctx;
 
-        const route = parent.$route;
+        const route = parent._privateRoute;
 
         // 表示当前RouterView需要渲染的层级
         let depth = 0;
