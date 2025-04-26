@@ -5,6 +5,7 @@ interface VueWithRouter extends Vue {
     _router: RouterInstance;
     _route: {
         value: Route;
+        _count: number;
         count: number;
     };
     $parent: VueWithRouter | null;
@@ -13,10 +14,12 @@ declare module 'vue/types/vue' {
     interface Vue {
         readonly $router: RouterInstance;
         readonly $route: Route;
+        readonly _privateRoute: Route;
         _routerRoot: VueWithRouter;
         readonly _router: RouterInstance;
         readonly _route: {
             value: Route;
+            _count: number;
             count: number;
         };
     }

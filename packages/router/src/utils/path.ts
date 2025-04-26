@@ -1,5 +1,5 @@
-import URLParse from 'url-parse';
 import normalizeUrl from 'normalize-url';
+import URLParse from 'url-parse';
 
 import type {
     HistoryState,
@@ -16,7 +16,7 @@ import {
     encodeQueryValue
 } from './encoding';
 import { isValidValue } from './utils';
-import { warn, assert } from './warn';
+import { assert, warn } from './warn';
 
 /**
  * 判断路径是否以 http 或 https 开头 或者直接是域名开头
@@ -271,7 +271,10 @@ export function normalizeLocation(
 /**
  * 判断路径是否以协议或域名开头
  */
-export function isPathWithProtocolOrDomain(location: RouterRawLocation, base: RouterBase = ''): {
+export function isPathWithProtocolOrDomain(
+    location: RouterRawLocation,
+    base: RouterBase = ''
+): {
     /**
      * 是否以协议或域名开头
      */
@@ -319,7 +322,7 @@ export function isPathWithProtocolOrDomain(location: RouterRawLocation, base: Ro
         url = normalizeUrl(url, {
             stripWWW: false,
             removeQueryParameters: false,
-            sortQueryParameters: false,
+            sortQueryParameters: false
         });
     } catch (error) {
         try {

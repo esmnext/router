@@ -31,9 +31,11 @@ class RouterVuePlugin {
                     this._routerRoot._router = this.$options.router;
                     Vue.util.defineReactive(this, '_route', {
                         value: this._router.route,
+                        _count: 0,
                         count: 0
                     });
                     const _event = () => {
+                        this._route._count++;
                         this._route.count++;
                     };
                     eventMap.set(this, _event);
@@ -55,6 +57,13 @@ class RouterVuePlugin {
         Object.defineProperty(Vue.prototype, '$router', {
             get() {
                 return this._routerRoot._router;
+            }
+        });
+        Object.defineProperty(Vue.prototype, '_privateRoute', {
+            enumerable: false,
+            get() {
+                this._routerRoot._route._count;
+                return this._routerRoot._route.value;
             }
         });
         Object.defineProperty(Vue.prototype, '$route', {

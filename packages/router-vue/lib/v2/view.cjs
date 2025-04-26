@@ -12,7 +12,7 @@ const RouterView = (exports.RouterView = (0, _vue.defineComponent)({
         ctx.data.dataView = true;
         let { parent } = ctx;
         const { data } = ctx;
-        const route = parent.$route;
+        const route = parent._privateRoute;
         let depth = 0;
         while (parent && parent._routerRoot !== parent) {
             const vnodeData =

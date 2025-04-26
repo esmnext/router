@@ -459,7 +459,7 @@ const router = createRouter({
             path: 'test4/:id/:name',
             // component: TestT4,
             meta: {
-                openInNewWindow: true,
+                openInNewWindow: true
             },
             asyncComponent: async () => {
                 await new Promise((resolve) => {

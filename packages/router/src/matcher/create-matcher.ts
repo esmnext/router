@@ -269,12 +269,12 @@ function createRouteMatch(
                 internalRedirect:
                     index > 0 || parent?.internalRedirect
                         ? createRouteMatch(
-                            {
-                                ...route,
-                                path: pathList[0]
-                            },
-                            parent?.internalRedirect || parent
-                        )
+                              {
+                                  ...route,
+                                  path: pathList[0]
+                              },
+                              parent?.internalRedirect || parent
+                          )
                         : undefined,
                 matched: [...(parent?.matched || []), route]
             };

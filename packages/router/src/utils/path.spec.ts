@@ -1,9 +1,6 @@
 import { describe, it } from 'vitest';
 
-import {
-    normalizeLocation,
-    normalizePath
-} from './path';
+import { normalizeLocation, normalizePath } from './path';
 
 describe('testing normalizeLocation', () => {
     it('testing normal domain', ({ expect }) => {
