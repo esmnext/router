@@ -13,6 +13,7 @@ import {
     isEqualRoute,
     isSameRoute,
     normalizeLocation,
+    normalizePath,
     stringifyPath
 } from '../utils';
 
@@ -99,12 +100,15 @@ export abstract class BaseRouterHistory implements RouterHistory {
         } = normalizedLocation;
         const route = createRouteRecord({
             base,
-            fullPath: stringifyPath({
-                pathname: path,
-                query,
-                queryArray,
-                hash
-            }),
+            fullPath: normalizePath(
+                stringifyPath({
+                    pathname: path,
+                    query,
+                    queryArray,
+                    hash
+                }),
+                base
+            ),
             path,
             params,
             query,

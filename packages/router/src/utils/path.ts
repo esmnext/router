@@ -323,6 +323,14 @@ export function isPathWithProtocolOrDomain(location: RouterRawLocation, base: Ro
         });
     } catch (error) {
         try {
+            if (url.startsWith('/')) {
+                // 如果url是绝对路径，移除开头的/
+                url = url.slice(1);
+            }
+            if (!baseString.endsWith('/')) {
+                // 如果 baseString 不以/结束，在末尾加上/
+                baseString += '/';
+            }
             url = new URL(url, baseString).href;
         } catch (error) {
             assert(false, `Invalid URL: ${url}`);
