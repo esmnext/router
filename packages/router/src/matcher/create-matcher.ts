@@ -101,10 +101,7 @@ class RouteMatcher {
                         params: realParams
                     })
                 ),
-                fullPath: normalizePath(
-                    realPath,
-                    base
-                ),
+                fullPath: realPath,
                 params: realParams,
                 query: realQuery,
                 queryArray: realQueryArray,
