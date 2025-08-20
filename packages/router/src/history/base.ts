@@ -98,17 +98,16 @@ export abstract class BaseRouterHistory implements RouterHistory {
             hash = '',
             state = {}
         } = normalizedLocation;
+        const pathString = stringifyPath({
+            pathname: path,
+            query,
+            queryArray,
+            hash
+        });
+        
         const route = createRouteRecord({
             base,
-            fullPath: normalizePath(
-                stringifyPath({
-                    pathname: path,
-                    query,
-                    queryArray,
-                    hash
-                }),
-                base
-            ),
+            fullPath: pathString,
             path,
             params,
             query,

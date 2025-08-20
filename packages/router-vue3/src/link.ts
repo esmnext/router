@@ -2,7 +2,8 @@ import {
     type RouteRecord,
     type RouterRawLocation,
     isEqualRoute,
-    isSameRoute
+    isSameRoute,
+    normalizePath
 } from '@gez/router';
 import { type PropType, defineComponent, h } from 'vue';
 
@@ -134,11 +135,28 @@ export const RouterLink = defineComponent({
             on[`on${eventName.toLocaleLowerCase()}`] = handler;
         });
 
+        /* 计算 href 属性：使用 router 的 base 和 fullPath 组合 */
+        let hrefValue: string;
+        if (typeof router.base === 'function') {
+            const queryArray = Object.fromEntries(
+                Object.entries(resolveRoute.queryArray || {}).filter(([_, value]) => value !== undefined)
+            ) as Record<string, string[]>;
+            const baseValue = router.base({
+                fullPath: resolveRoute.fullPath,
+                query: resolveRoute.query,
+                queryArray,
+                hash: resolveRoute.hash
+            });
+            hrefValue = normalizePath(resolveRoute.fullPath, baseValue);
+        } else {
+            hrefValue = normalizePath(resolveRoute.fullPath, router.base);
+        }
+
         return h(
             tag,
             {
                 class: ['router-link', active ? [activeClass] : ''],
-                href: resolveRoute.fullPath,
+                href: hrefValue,
                 ...on
             },
             this.$slots
