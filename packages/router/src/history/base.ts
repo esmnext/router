@@ -128,6 +128,7 @@ export abstract class BaseRouterHistory implements RouterHistory {
         if (this.isFrozen) return;
         // 寻找即将跳转路径匹配到的路由对象
         const route = this.resolve(location);
+        console.log('@transitionTo', route);
 
         this.abortTask();
 
@@ -151,6 +152,7 @@ export abstract class BaseRouterHistory implements RouterHistory {
         // 寻找即将跳转路径匹配到的路由对象
         const route = this.resolve(location);
         this.abortTask();
+        console.log('@transitionTo', route);
 
         // 禁止重复跳转
         if (isEqualRoute(this.current, route)) {

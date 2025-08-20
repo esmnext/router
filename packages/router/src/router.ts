@@ -153,13 +153,8 @@ export class Router implements RouterInstance {
 
     /* 应用路由 */
     protected applyRoute(route: RouteRecord) {
-        let url = '';
-        const { fullPath } = route;
-        if (inBrowser && !regexDomain.test(fullPath)) {
-            url = normalizePath(fullPath, location.origin);
-        } else {
-            url = normalizePath(fullPath);
-        }
+        const { base, fullPath } = route;
+        const url = normalizePath(fullPath, base);
 
         const {
             hash,
