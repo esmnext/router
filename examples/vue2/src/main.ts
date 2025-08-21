@@ -36,21 +36,21 @@ const router = createRouter({
         console.log('@noBackNavigation');
     },
     nextTick: Vue.nextTick,
-    validateOutside(ctx) {
-        console.log('@validateOutside', ctx);
-        console.log(ctx.router.resolve(ctx.location));
-        const route = ctx.router.resolve(ctx.location);
-        if (route.meta.openInNewWindow) {
-            return true;
-        }
-        return false;
-    },
-    handleOutside: (options) => {
-        console.log('@handleOutside', options, options.route, options.replace);
-        // window.open(route.href, '_blank');
-        // return true;
-        return false;
-    },
+    // validateOutside(ctx) {
+    //     console.log('@validateOutside', ctx);
+    //     console.log(ctx.router.resolve(ctx.location));
+    //     const route = ctx.router.resolve(ctx.location);
+    //     if (route.meta.openInNewWindow) {
+    //         return true;
+    //     }
+    //     return false;
+    // },
+    // handleOutside: (options) => {
+    //     console.log('@handleOutside', options, options.route, options.replace);
+    //     // window.open(route.href, '_blank');
+    //     // return true;
+    //     return false;
+    // },
     routes: [
         {
             // 这是一个错误的路由配置，但是会打印配置错误的提示

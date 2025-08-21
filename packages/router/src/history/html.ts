@@ -5,6 +5,7 @@ import {
     getSavedScrollPosition,
     isPathWithProtocolOrDomain,
     normalizeLocation,
+    normalizePath,
     openWindow,
     saveScrollPosition,
     scrollToPosition
@@ -186,10 +187,11 @@ export class HtmlHistory extends BaseRouterHistory {
                     : { ...route.state, _ancientRoute: false },
                 { keepScrollPosition }
             );
+            const href = normalizePath(route.fullPath, route.base);
             window.history[replace ? 'replaceState' : 'pushState'](
                 state,
                 '',
-                route.fullPath
+                href
             );
 
             this.router.updateLayerState(route);

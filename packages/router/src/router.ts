@@ -473,7 +473,8 @@ export class Router implements RouterInstance {
             ...history.state,
             [StateLayerConfigKey]: stateConfigList
         };
-        window.history.replaceState(state, '', route.fullPath);
+        const href = normalizePath(route.fullPath, route.base);
+        window.history.replaceState(state, '', href);
     }
 
     /**
