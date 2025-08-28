@@ -75,6 +75,7 @@ export default {
         <div class="tabs">
             router-push
             <button @click="router.push('/')">push /</button>
+            <button @click="router.push('/entest1')">push /entest1</button>
             <button @click="router.push('/test1')">push /test1</button>
             <button @click="router.push('/test1/test2')">push /test1/test2</button>
             <button @click="router.push('/test2xxxxx')">push /test2xxxxx</button>

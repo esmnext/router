@@ -242,12 +242,20 @@ export function normalizeLocation(
     );
 
     let path = pathname;
+
     // 如果 base 部分包含域名
+    let basePath = baseString;
     if (regexDomain.test(baseString)) {
         const { pathname } = new URLParse(baseString);
-        path = normalizePath(path.replace(new RegExp(`^(${pathname})`), ''));
+        basePath = pathname;
     }
-    path = normalizePath(path.replace(new RegExp(`^(${baseString})`), ''));
+    if (path === basePath) {
+        // 如果路径与 base 相同，将路径设为空字符串
+        path = '';
+    } else {
+        // 如果路径不以 base 开头，将路径设为空字符串
+        path = normalizePath(path.replace(new RegExp(`^(${basePath}\/)`), ''));
+    }
 
     const { query: realQuery, queryArray: realQueryArray } =
         parsePath(fullPath);

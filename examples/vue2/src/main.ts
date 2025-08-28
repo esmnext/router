@@ -60,6 +60,11 @@ const router = createRouter({
         },
         {
             appType: 'vue2',
+            path: '/entest1(.*)',
+            component: TestT1
+        },
+        {
+            appType: 'vue2',
             path: '',
             component: Test,
             beforeEnter: async (from, to) => {
